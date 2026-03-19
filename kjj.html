@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>应用快捷启动器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 0 10px;
+        }
+        
+        .app-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+        }
+        
+        .app-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .app-item:active {
+            transform: translateY(-2px);
+            transition: all 0.1s ease;
+        }
+        
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .app-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .app-desc {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* 应用颜色主题 */
+        .douyin { background: linear-gradient(135deg, #FF2D55, #FF375F); }
+        .bilibili { background: linear-gradient(135deg, #00A1D6, #008CBA); }
+        .xiaohongshu { background: linear-gradient(135deg, #FF2442, #FF3852); }
+        .wechat { background: linear-gradient(135deg, #07C160, #06AD56); }
+        .alipay { background: linear-gradient(135deg, #108EE9, #0D7BD4); }
+        .taobao { background: linear-gradient(135deg, #FF4400, #FF5F20); }
+        .qq { background: linear-gradient(135deg, #12B7F5, #0FA1D5); }
+        .weibo { background: linear-gradient(135deg, #E6162D, #D91022); }
+        .zhihu { background: linear-gradient(135deg, #0084FF, #0066CC); }
+        
+        /* 图标字体 */
+        .icon-text {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+        
+        .feedback {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            padding: 10px;
+        }
+        
+        .status {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .status.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 400px) {
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 快捷启动</h1>
+            <p>点击图标快速打开常用应用</p>
+        </div>
+        
+        <div class="apps-grid">
+            <!-- 抖音 -->
+            <div class="app-item" onclick="openApp('douyin')">
+                <div class="app-icon douyin">
+                    <span class="icon-text">抖</span>
+                </div>
+                <div class="app-name">抖音</div>
+            </div>
+            
+            <!-- 哔哩哔哩 -->
+            <div class="app-item" onclick="openApp('bilibili')">
+                <div class="app-icon bilibili">
+                    <span class="icon-text">B</span>
+                </div>
+                <div class="app-name">哔哩哔哩</div>
+            </div>
+            
+            <!-- 小红书 -->
+            <div class="app-item" onclick="openApp('xiaohongshu')">
+                <div class="app-icon xiaohongshu">
+                    <span class="icon-text">红</span>
+                </div>
+                <div class="app-name">小红书</div>
+            </div>
+            
+            <!-- 微信 -->
+            <div class="app-item" onclick="openApp('wechat')">
+                <div class="app-icon wechat">
+                    <span class="icon-text">微</span>
+                </div>
+                <div class="app-name">微信</div>
+            </div>
+            
+            <!-- 支付宝 -->
+            <div class="app-item" onclick="openApp('alipay')">
+                <div class="app-icon alipay">
+                    <span class="icon-text">支</span>
+                </div>
+                <div class="app-name">支付宝</div>
+            </div>
+            
+            <!-- 淘宝 -->
+            <div class="app-item" onclick="openApp('taobao')">
+                <div class="app-icon taobao">
+                    <span class="icon-text">淘</span>
+                </div>
+                <div class="app-name">淘宝</div>
+            </div>
+            
+            <!-- QQ -->
+            <div class="app-item" onclick="openApp('qq')">
+                <div class="app-icon qq">
+                    <span class="icon-text">Q</span>
+                </div>
+                <div class="app-name">QQ</div>
+            </div>
+            
+            <!-- 微博 -->
+            <div class="app-item" onclick="openApp('weibo')">
+                <div class="app-icon weibo">
+                    <span class="icon-text">微</span>
+                </div>
+                <div class="app-name">微博</div>
+            </div>
+            
+            <!-- 知乎 -->
+            <div class="app-item" onclick="openApp('zhihu')">
+                <div class="app-icon zhihu">
+                    <span class="icon-text">知</span>
+                </div>
+                <div class="app-name">知乎</div>
+            </div>
+        </div>
+        
+        <div class="feedback">
+            <p>点击图标将尝试打开对应应用，如果未安装将跳转到下载页面</p>
+        </div>
+        
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        // 应用链接配置
+        const appConfigs = {
+            'douyin': {
+                scheme: 'snssdk1128://',
+                url: 'https://www.douyin.com/',
+                download: 'https://www.douyin.com/download',
+                name: '抖音'
+            },
+            'bilibili': {
+                scheme: 'bilibili://',
+                url: 'https://www.bilibili.com/',
+                download: 'https://www.bilibili.com/download',
+                name: '哔哩哔哩'
+            },
+            'xiaohongshu': {
+                scheme: 'xhsdiscover://',
+                url: 'https://www.xiaohongshu.com/',
+                download: 'https://www.xiaohongshu.com/download',
+                name: '小红书'
+            },
+            'wechat': {
+                scheme: 'weixin://',
+                url: 'https://weixin.qq.com/',
+                download: 'https://weixin.qq.com/',
+                name: '微信'
+            },
+            'alipay': {
+                scheme: 'alipay://',
+                url: 'https://www.alipay.com/',
+                download: 'https://www.alipay.com/',
+                name: '支付宝'
+            },
+            'taobao': {
+                scheme: 'taobao://',
+                url: 'https://www.taobao.com/',
+                download: 'https://www.taobao.com/',
+                name: '淘宝'
+            },
+            'qq': {
+                scheme: 'mqq://',
+                url: 'https://im.qq.com/',
+                download: 'https://im.qq.com/',
+                name: 'QQ'
+            },
+            'weibo': {
+                scheme: 'sinaweibo://',
+                url: 'https://weibo.com/',
+                download: 'https://weibo.com/',
+                name: '微博'
+            },
+            'zhihu': {
+                scheme: 'zhihu://',
+                url: 'https://www.zhihu.com/',
+                download: 'https://www.zhihu.com/',
+                name: '知乎'
+            }
+        };
+        
+        // 显示状态信息
+        function showStatus(message, isError = false) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status show';
+            if (isError) {
+                statusEl.style.color = '#FF6B6B';
+            } else {
+                statusEl.style.color = '#4ECDC4';
+            }
+            
+            setTimeout(() => {
+                statusEl.className = 'status';
+            }, 2000);
+        }
+        
+        // 尝试打开应用
+        function openApp(appKey) {
+            const config = appConfigs[appKey];
+            if (!config) {
+                showStatus('应用配置错误', true);
+                return;
+            }
+            
+            showStatus(`正在打开${config.name}...`);
+            
+            // 尝试通过应用Scheme打开
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = config.scheme;
+            document.body.appendChild(iframe);
+            
+            // 检查应用是否被打开
+            let appOpened = false;
+            const startTime = Date.now();
+            
+            window.onblur = function() {
+                appOpened = true;
+            };
+            
+            setTimeout(function() {
+                document.body.removeChild(iframe);
+                
+                if (appOpened) {
+                    showStatus(`${config.name}已打开`);
+                } else {
+                    // 如果应用没安装，跳转到网页版
+                    showStatus(`正在跳转到${config.name}网页版`, true);
+                    window.location.href = config.url;
+                }
+                
+                window.onblur = null;
+            }, 500);
+        }
+        
+        // 添加触摸反馈效果
+        document.querySelectorAll('.app-item').forEach(item => {
+            let touchStartTime = 0;
+            
+            item.addEventListener('touchstart', function(e) {
+                touchStartTime = Date.now();
+                this.style.transform = 'scale(0.95)';
+                this.style.opacity = '0.8';
+            });
+            
+            item.addEventListener('touchend', function(e) {
+                const touchDuration = Date.now() - touchStartTime;
+                this.style.transform = '';
+                this.style.opacity = '';
+                
+                // 防止误触
+                if (touchDuration < 500 && touchDuration > 50) {
+                    const appKey = this.getAttribute('onclick').match(/openApp\('(.+?)'\)/)[1];
+                    openApp(appKey);
+                }
+            });
+            
+            item.addEventListener('touchcancel', function() {
+                this.style.transform = '';
+                this.style.opacity = '';
+            });
+        });
+        
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            showStatus('点击图标快速打开应用', false);
+        });
+    </script>
+</body>
+</html>
